@@ -111,7 +111,7 @@ from bs4 import BeautifulSoup
 from llm_integration import query_gpt 
 
 # Page configuration
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="Biz Buddy - SEO", layout="wide", page_icon = "🔍")
 
 def fetch_page_copy(url):
     try:
