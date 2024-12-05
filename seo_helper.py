@@ -110,6 +110,8 @@ def display_report_with_llm(llm_prompt, keywords):
     llm_response = query_gpt(llm_prompt)
     return llm_response
 
+import streamlit as st
+
 def main():
     # Ensure session_summary is initialized in session state
     if "session_summary" not in st.session_state:
@@ -117,21 +119,30 @@ def main():
     
     # Retrieve message from URL parameter
     query_params = st.experimental_get_query_params()
-    message = query_params.get("message", ["No message received"])[0]
+    message = query_params.get("message", ["No message received"])[0]  # Capture the message (if necessary for use)
 
     # Display SEO helper app
     st.title("SEO Helper")
     st.write("This is the SEO helper app.")
 
+    # Input field for the business description
+    business_description = st.text_area(
+        "Business Description", 
+        placeholder="E.g., 'A sports psychologist in Boise, Idaho, specializing in 1-on-1 coaching, team workshops, and mental performance plans. Customers might search for terms like 'sports psychologist,' 'sports mental coach,' or 'mental fatigue in athletes.'"
+    )
+
     # Input field for the URL to scrape
     url = st.text_input("Enter a URL to scrape", placeholder="https://example.com")
-    
+
+    # Initialize keyword_list variable
+    keyword_list = []
+
     # Step 2: Keyword Generation
     if st.button("Generate Keywords") and business_description.strip():
         keyword_list = generate_keywords(business_description)
 
     # Now generate the SEO analysis based on the business description and keywords
-    if url:
+    if url and keyword_list:
         st.write("Fetching content...")
         seo_data = fetch_page_copy(url)
 
@@ -150,13 +161,18 @@ def main():
                 f"Meta Description: {seo_data['Meta Description']}\n"
                 f"Meta Keywords: {seo_data['Meta Keywords']}\n"
                 f"Page Copy: {seo_data['Page Copy']}\n\n"
-                f"Based on this SEO information, please suggest possible improvements. Have one section main section that talks about overall SEO strategy. Below that have another section where you identify actual pieces of text you see that could be tweaked."
-                f"Use the following context to guide your suggestions: {keyword_list}. "
+                f"Based on this SEO information, please suggest possible improvements. Have one section that talks about overall SEO strategy. Below that, identify actual pieces of text that could be tweaked."
+                f"Use the following context to guide your suggestions: {', '.join(keyword_list)}. "
                 f"This is an analysis from an initial look at the search query report from this website."
-                )
+            )
          
             # Display LLM analysis with the generated keywords included in the prompt
             display_report_with_llm(llm_prompt, keyword_list)
- 
+    else:
+        if not keyword_list:
+            st.warning("Please generate keywords by filling out the business description.")
+        if not url:
+            st.warning("Please enter a valid URL.")
+
 if __name__ == "__main__":
      main()
