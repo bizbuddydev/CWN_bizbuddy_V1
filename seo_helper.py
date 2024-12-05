@@ -143,7 +143,7 @@ def main():
             st.write(seo_data["Page Copy"])
 
         # Generate the prompt for LLM analysis
-        llm_prompt = (
+        llm_prompt_final = (
             f"Here is the SEO information and page copy from a webpage:\n\n"
             f"Title: {seo_data['Title']}\n"
             f"Meta Description: {seo_data['Meta Description']}\n"
@@ -155,7 +155,7 @@ def main():
         )
      
         # Display LLM analysis with the generated keywords included in the prompt
-        display_report_with_llm(llm_prompt, keyword_list)
+        display_report_with_llm(llm_prompt_final, keyword_list)
     else:
         if not keyword_list:
             st.warning("Please generate keywords by filling out the business description.")
