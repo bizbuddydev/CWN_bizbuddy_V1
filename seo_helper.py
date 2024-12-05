@@ -5,7 +5,7 @@ import pandas as pd
 import json
 import gsc_data_pull
 from llm_integration import query_gpt
-from gaw_camapaignbuilder import *
+from gaw_camapignbuilder import *
 
 # Page configuration
 st.set_page_config(page_title="SEOhelper", layout="wide", page_icon = "🔎")
