@@ -110,8 +110,6 @@ def display_report_with_llm(llm_prompt, keywords):
     llm_response = query_gpt(llm_prompt)
     return llm_response
 
-import streamlit as st
-
 def main():
     # Ensure session_summary is initialized in session state
     if "session_summary" not in st.session_state:
