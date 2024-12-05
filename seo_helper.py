@@ -5,6 +5,7 @@ import pandas as pd
 import json
 import gsc_data_pull
 from llm_integration import query_gpt
+from gaw_camapignbuilder import *
 
 # Set up the app title
 st.title("Keyword Campaign Builder & SEO Helper")
