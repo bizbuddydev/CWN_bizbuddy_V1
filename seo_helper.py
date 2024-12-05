@@ -95,8 +95,7 @@ def display_report_with_llm(llm_prompt, keywords):
     keywords_str = ', '.join(keywords)  # Join keywords into a string
     st.write("Keyword String")
     st.write(keywords_str)
-    llm_prompt += f"\n\nHere are the suggested keywords: {keywords_str}"
-    
+
     # Query the LLM with the prompt
     response = query_gpt(llm_prompt)
     st.write("Reposnse")
