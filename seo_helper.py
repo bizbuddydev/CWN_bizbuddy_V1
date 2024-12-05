@@ -113,7 +113,7 @@ def main():
     # Input field for the business description
     business_description = st.text_area(
         "Business Description", 
-        placeholder="E.g., 'A sports psychologist in Boise, Idaho, specializing in 1-on-1 coaching, team workshops, and mental performance plans. Customers might search for terms like 'sports psychologist,' 'sports mental coach,' or 'mental fatigue in athletes.'"
+        placeholder="E.g., 'A Registered Dietitian based in Seattle, WA focused on healthy eating for sustainable results. Some keyword ideas include pre menopause dietitian, nutritionist that takes insurance, improved relationship with food'"
     )
 
     # Input field for the URL to scrape
