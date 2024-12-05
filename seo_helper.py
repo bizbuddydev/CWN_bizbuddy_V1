@@ -154,6 +154,9 @@ def main():
             f"This is an analysis from an initial look at the search query report from this website."
         )
 #            f"Use the following context to guide your suggestions: {', '.join(keyword_list)}. "
+
+        st.session_state["session_summary"] = "" 
+        
         # Display LLM analysis with the generated keywords included in the prompt
         display_report_with_llm(llm_prompt_final, keyword_list)
     else:
