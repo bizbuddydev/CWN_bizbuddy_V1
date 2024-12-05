@@ -67,6 +67,8 @@ def generate_keywords(business_description):
         ),
         data_summary=business_description
     )
+    st.write("first LLM response:")
+    st.write(llm_response)
 
     # Extract content inside brackets
     extracted_json = extract_json_like_content(llm_response)
