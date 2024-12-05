@@ -91,7 +91,10 @@ def generate_keywords(business_description):
                     st.session_state["keywords_df"]["Ad Group"]
                 )
             }  # Initialize checkbox states
-            return keyword_list
+            
+            # Extract only the "Keyword" part
+            keywords = [kw["Keyword"] for kw in keyword_list]
+            return keywords  # Return the list of keywords
         except json.JSONDecodeError:
             st.error("Failed to parse the extracted content as JSON. Please check the output.")
     else:
@@ -99,11 +102,14 @@ def generate_keywords(business_description):
 
 # Combine the SEO tool with keyword generation
 def display_report_with_llm(llm_prompt, keywords):
-    # Append keywords to the SEO prompt
-    llm_prompt += f"\n\nHere are the suggested keywords: {keywords}"
+    # Ensure keywords are passed as a formatted string for the LLM prompt
+    keywords_str = ', '.join(keywords)  # Join keywords into a string
+    llm_prompt += f"\n\nHere are the suggested keywords: {keywords_str}"
+    
     # Query the LLM with the prompt
     llm_response = query_gpt(llm_prompt)
     st.write("GPT-4 Analysis:")
+    st.write(llm_response)
 
 def main():
     # Ensure session_summary is initialized in session state
@@ -151,7 +157,7 @@ def main():
         )
 
     # Display LLM analysis with the generated keywords included in the prompt
-    display_report_with_llm(llm_prompt, st.session_state["keywords_df"]['Keyword'].tolist())
+    display_report_with_llm(llm_prompt, keyword_list)
  
 if __name__ == "__main__":
      main()
