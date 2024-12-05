@@ -7,7 +7,8 @@ import gsc_data_pull
 from llm_integration import query_gpt
 from gaw_camapignbuilder import *
 
-st.set_page_config(page_layout="wide")
+# Page configuration
+st.set_page_config(page_title="SEOhelper", layout="wide", page_icon = "🔎")
 
 # Function to fetch the page copy for SEO
 def fetch_page_copy(url):
