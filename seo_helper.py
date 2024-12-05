@@ -93,13 +93,12 @@ def generate_keywords(business_description):
 def display_report_with_llm(llm_prompt, keywords):
     # Ensure keywords are passed as a formatted string for the LLM prompt
     keywords_str = ', '.join(keywords)  # Join keywords into a string
+    st.write("prompt")
     st.write(llm_prompt)
-    st.write("Keyword String")
-    st.write(keywords_str)
 
     # Query the LLM with the prompt
     final_response = query_gpt(llm_prompt)
-    st.write("Reposnse")
+    st.write("Response")
     st.write(final_response)
 
 def main():
