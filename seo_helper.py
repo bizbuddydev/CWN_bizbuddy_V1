@@ -151,9 +151,9 @@ def main():
             f"Meta Keywords: {seo_data['Meta Keywords']}\n"
             f"Page Copy: {seo_data['Page Copy']}\n\n"
             f"Based on this SEO information, please suggest possible improvements. Have one section that talks about overall SEO strategy. Below that, identify actual pieces of text that could be tweaked."
+            f"Use the following context to guide your suggestions: {', '.join(keyword_list)}. "
             f"This is an analysis from an initial look at the search query report from this website."
         )
-#            f"Use the following context to guide your suggestions: {', '.join(keyword_list)}. "
 
         st.session_state["session_summary"] = "" 
         
