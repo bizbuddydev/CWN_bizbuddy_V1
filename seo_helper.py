@@ -81,7 +81,6 @@ def generate_keywords(business_description):
 
     # Extract content inside brackets
     extracted_json = extract_json_like_content(llm_response)
-    st.write(extracted_json)
     if extracted_json:
         try:
             keyword_list = json.loads(extracted_json)  # Parse JSON
@@ -92,7 +91,7 @@ def generate_keywords(business_description):
                     st.session_state["keywords_df"]["Ad Group"]
                 )
             }  # Initialize checkbox states
-            st.write(keyword_list)
+            return keyword_list
         except json.JSONDecodeError:
             st.error("Failed to parse the extracted content as JSON. Please check the output.")
     else:
@@ -124,7 +123,7 @@ def main():
     
     # Step 2: Keyword Generation
     if st.button("Generate Keywords") and business_description.strip():
-        generate_keywords(business_description)
+        keyword_list = generate_keywords(business_description)
 
     # Now generate the SEO analysis based on the business description and keywords
     if url:
@@ -139,7 +138,6 @@ def main():
             st.subheader("Page Copy")
             st.write(seo_data["Page Copy"])
 
-
         # Generate the prompt for LLM analysis
         llm_prompt = (
             f"Here is the SEO information and page copy from a webpage:\n\n"
@@ -148,7 +146,7 @@ def main():
             f"Meta Keywords: {seo_data['Meta Keywords']}\n"
             f"Page Copy: {seo_data['Page Copy']}\n\n"
             f"Based on this SEO information, please suggest possible improvements. Have one section main section that talks about overall SEO strategy. Below that have another section where you identify actual pieces of text you see that could be tweaked."
-            f"Use the following context to guide your suggestions: {message}. "
+            f"Use the following context to guide your suggestions: {keyword_list}. "
             f"This is an analysis from an initial look at the search query report from this website."
         )
 
