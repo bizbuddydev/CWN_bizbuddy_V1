@@ -8,22 +8,17 @@ from llm_integration import query_gpt
 from gaw_camapignbuilder import *
 
 # Page configuration
-st.set_page_config(page_title="SEOhelper", layout="wide", page_icon = "🔎")
+st.set_page_config(page_title="SEOhelper", layout="wide", page_icon="🔎")
 
 # Function to fetch the page copy for SEO
 def fetch_page_copy(url):
     try:
-        # Fetch the content of the page
         response = requests.get(url)
         response.raise_for_status()  # Check if request was successful
-
-        # Parse the page content
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # Extract the title tag
         title = soup.title.string if soup.title else "No title found"
-
-        # Extract the meta description
         meta_description = ""
         description_tag = soup.find("meta", attrs={"name": "description"})
         if description_tag and description_tag.get("content"):
@@ -31,7 +26,6 @@ def fetch_page_copy(url):
         else:
             meta_description = "No meta description found"
 
-        # Extract meta keywords
         meta_keywords = ""
         keywords_tag = soup.find("meta", attrs={"name": "keywords"})
         if keywords_tag and keywords_tag.get("content"):
@@ -39,11 +33,9 @@ def fetch_page_copy(url):
         else:
             meta_keywords = "No meta keywords found"
 
-        # Extract main text from <p> and heading tags
         paragraphs = soup.find_all(['p', 'h1', 'h2', 'h3'])
         page_text = "\n\n".join([para.get_text(strip=True) for para in paragraphs])
 
-        # Combine all extracted data into a dictionary
         seo_data = {
             "Title": title,
             "Meta Description": meta_description,
@@ -68,45 +60,39 @@ def generate_keywords(business_description):
         data_summary=business_description
     )
 
-    # Extract content inside brackets
     extracted_json = extract_json_like_content(llm_response)
     if extracted_json:
         try:
-            keyword_list = json.loads(extracted_json)  # Parse JSON
-            st.session_state["keywords_df"] = pd.DataFrame(keyword_list)  # Save DataFrame in session state
+            keyword_list = json.loads(extracted_json)
+            st.session_state["keywords_df"] = pd.DataFrame(keyword_list)
             st.session_state["keyword_checkboxes"] = {
                 f"{kw} ({ad})": True for kw, ad in zip(
                     st.session_state["keywords_df"]["Keyword"],
                     st.session_state["keywords_df"]["Ad Group"]
                 )
-            }  # Initialize checkbox states
-            
-            # Extract only the "Keyword" part
+            }
             keywords = [kw["Keyword"] for kw in keyword_list]
-            return keywords  # Return the list of keywords
+            return keywords
         except json.JSONDecodeError:
             st.error("Failed to parse the extracted content as JSON. Please check the output.")
     else:
         st.error("Could not extract content inside brackets. Please check the LLM response.")
 
-# Combine the SEO tool with keyword generation
-def display_report_with_llm(llm_prompt, keywords):
-    # Ensure keywords are passed as a formatted string for the LLM prompt
-    keywords_str = ', '.join(keywords)  # Join keywords into a string
-    st.write("Keyword String")
-    st.write(keywords_str)
-
-    # Query the LLM with the prompt
-    response = query_gpt(llm_prompt)
-    st.write("Reposnse")
-    st.write(response)
+# Function to display the report based on the LLM prompt
+def display_report_with_llm(llm_prompt):
+    # Query the LLM with the SEO analysis prompt
+    llm_response = query_gpt(llm_prompt)
+    
+    if llm_response:
+        st.write("GPT-4 SEO Analysis:")
+        st.write(llm_response)
+    else:
+        st.write("No analysis returned. Please check the input and try again.")
 
 def main():
-         
     # Ensure session_summary is initialized in session state
     if "session_summary" not in st.session_state:
         st.session_state["session_summary"] = ""  # Initialize with an empty string or default value
-    
 
     # Display SEO helper app
     st.title("SEO Helper")
@@ -148,13 +134,14 @@ def main():
             f"Meta Description: {seo_data['Meta Description']}\n"
             f"Meta Keywords: {seo_data['Meta Keywords']}\n"
             f"Page Copy: {seo_data['Page Copy']}\n\n"
-            f"Based on this SEO information, please suggest possible improvements. Have one section that talks about overall SEO strategy. Below that, identify actual pieces of text that could be tweaked."
+            f"Based on this SEO information, please suggest possible improvements. "
+            f"Have one section that talks about overall SEO strategy. Below that, identify actual pieces of text that could be tweaked."
             f"Use the following context to guide your suggestions: {', '.join(keyword_list)}. "
             f"This is an analysis from an initial look at the search query report from this website."
         )
-     
-        # Display LLM analysis with the generated keywords included in the prompt
-        display_report_with_llm(llm_prompt_final, keyword_list)
+        
+        # Display SEO analysis with the generated keywords included in the prompt
+        display_report_with_llm(llm_prompt_final)
     else:
         if not keyword_list:
             st.warning("Please generate keywords by filling out the business description.")
@@ -162,4 +149,4 @@ def main():
             st.warning("Please enter a valid URL.")
 
 if __name__ == "__main__":
-     main()
+    main()
