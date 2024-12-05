@@ -67,8 +67,6 @@ def generate_keywords(business_description):
         ),
         data_summary=business_description
     )
-    st.write("first LLM response:")
-    st.write(llm_response)
 
     # Extract content inside brackets
     extracted_json = extract_json_like_content(llm_response)
@@ -95,12 +93,10 @@ def generate_keywords(business_description):
 def display_report_with_llm(llm_prompt, keywords):
     # Ensure keywords are passed as a formatted string for the LLM prompt
     keywords_str = ', '.join(keywords)  # Join keywords into a string
-    st.write("prompt")
-    st.write(llm_prompt)
 
     # Query the LLM with the prompt
     final_response = query_gpt(llm_prompt)
-    st.write("Response")
+    st.subheader("ChatGPT Analysis:")
     st.write(final_response)
 
 def main():
