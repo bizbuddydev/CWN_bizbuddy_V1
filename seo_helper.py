@@ -108,8 +108,7 @@ def display_report_with_llm(llm_prompt, keywords):
     
     # Query the LLM with the prompt
     llm_response = query_gpt(llm_prompt)
-    st.write("GPT-4 Analysis:")
-    st.write(llm_response)
+    return llm_response)
 
 def main():
     # Ensure session_summary is initialized in session state
