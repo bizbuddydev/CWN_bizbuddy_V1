@@ -81,7 +81,7 @@ def generate_keywords(business_description):
 
     # Extract content inside brackets
     extracted_json = extract_json_like_content(llm_response)
-
+    st.write(extracted_json)
     if extracted_json:
         try:
             keyword_list = json.loads(extracted_json)  # Parse JSON
@@ -92,6 +92,7 @@ def generate_keywords(business_description):
                     st.session_state["keywords_df"]["Ad Group"]
                 )
             }  # Initialize checkbox states
+            st.write(keyword_list)
         except json.JSONDecodeError:
             st.error("Failed to parse the extracted content as JSON. Please check the output.")
     else:
@@ -104,7 +105,6 @@ def display_report_with_llm(llm_prompt, keywords):
     # Query the LLM with the prompt
     llm_response = query_gpt(llm_prompt)
     st.write("GPT-4 Analysis:")
-    st.write(llm_response)
 
 def main():
     # Ensure session_summary is initialized in session state
@@ -138,6 +138,7 @@ def main():
             st.write(f"**Meta Keywords:** {seo_data['Meta Keywords']}")
             st.subheader("Page Copy")
             st.write(seo_data["Page Copy"])
+
 
         # Generate the prompt for LLM analysis
         llm_prompt = (
