@@ -153,8 +153,6 @@ def main():
         )
      
         # Display LLM analysis with the generated keywords included in the prompt
-        st.write(llm_prompt)
-        st.write(keyword_list)
         display_report_with_llm(llm_prompt, keyword_list)
     else:
         if not keyword_list:
