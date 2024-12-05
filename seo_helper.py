@@ -98,9 +98,9 @@ def display_report_with_llm(llm_prompt, keywords):
     st.write(keywords_str)
 
     # Query the LLM with the prompt
-    response = query_gpt(llm_prompt)
+    final_response = query_gpt(llm_prompt)
     st.write("Reposnse")
-    st.write(response)
+    st.write(final_response)
 
 def main():
          
