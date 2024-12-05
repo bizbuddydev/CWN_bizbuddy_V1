@@ -140,22 +140,22 @@ def main():
             st.subheader("Page Copy")
             st.write(seo_data["Page Copy"])
 
-            # Generate the prompt for LLM analysis
-            llm_prompt = (
-                f"Here is the SEO information and page copy from a webpage:\n\n"
-                f"Title: {seo_data['Title']}\n"
-                f"Meta Description: {seo_data['Meta Description']}\n"
-                f"Meta Keywords: {seo_data['Meta Keywords']}\n"
-                f"Page Copy: {seo_data['Page Copy']}\n\n"
-                f"Based on this SEO information, please suggest possible improvements. Have one section that talks about overall SEO strategy. Below that, identify actual pieces of text that could be tweaked."
-                f"Use the following context to guide your suggestions: {', '.join(keyword_list)}. "
-                f"This is an analysis from an initial look at the search query report from this website."
-            )
-         
-            # Display LLM analysis with the generated keywords included in the prompt
-            st.write(llm_prompt)
-            st.write(keyword_list)
-            display_report_with_llm(llm_prompt, keyword_list)
+        # Generate the prompt for LLM analysis
+        llm_prompt = (
+            f"Here is the SEO information and page copy from a webpage:\n\n"
+            f"Title: {seo_data['Title']}\n"
+            f"Meta Description: {seo_data['Meta Description']}\n"
+            f"Meta Keywords: {seo_data['Meta Keywords']}\n"
+            f"Page Copy: {seo_data['Page Copy']}\n\n"
+            f"Based on this SEO information, please suggest possible improvements. Have one section that talks about overall SEO strategy. Below that, identify actual pieces of text that could be tweaked."
+            f"Use the following context to guide your suggestions: {', '.join(keyword_list)}. "
+            f"This is an analysis from an initial look at the search query report from this website."
+        )
+     
+        # Display LLM analysis with the generated keywords included in the prompt
+        st.write(llm_prompt)
+        st.write(keyword_list)
+        display_report_with_llm(llm_prompt, keyword_list)
     else:
         if not keyword_list:
             st.warning("Please generate keywords by filling out the business description.")
