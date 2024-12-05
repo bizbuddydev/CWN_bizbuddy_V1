@@ -7,19 +7,7 @@ import gsc_data_pull
 from llm_integration import query_gpt
 from gaw_camapignbuilder import *
 
-# Set up the app title
-st.title("Keyword Campaign Builder & SEO Helper")
-
-# Step 1: Collect information about the business
-st.header("Step 1: Tell us about your business")
-st.write("Please enter a short prompt about your business, specific services, and what customers might search for "
-         "if they were looking for a business like yours.")
-
-# Input field for user description
-business_description = st.text_area(
-    "Business Description", 
-    placeholder="E.g., 'A sports psychologist in Boise, Idaho, specializing in 1-on-1 coaching, team workshops, and mental performance plans. Customers might search for terms like 'sports psychologist,' 'sports mental coach,' or 'mental fatigue in athletes.'"
-)
+st.set_page_config(page_layout="wide")
 
 # Function to fetch the page copy for SEO
 def fetch_page_copy(url):
@@ -111,13 +99,11 @@ def display_report_with_llm(llm_prompt, keywords):
     return llm_response
 
 def main():
+         
     # Ensure session_summary is initialized in session state
     if "session_summary" not in st.session_state:
         st.session_state["session_summary"] = ""  # Initialize with an empty string or default value
     
-    # Retrieve message from URL parameter
-    query_params = st.experimental_get_query_params()
-    message = query_params.get("message", ["No message received"])[0]  # Capture the message (if necessary for use)
 
     # Display SEO helper app
     st.title("SEO Helper")
