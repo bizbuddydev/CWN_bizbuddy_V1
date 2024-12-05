@@ -98,9 +98,9 @@ def display_report_with_llm(llm_prompt, keywords):
     llm_prompt += f"\n\nHere are the suggested keywords: {keywords_str}"
     
     # Query the LLM with the prompt
-    llm_response = query_gpt(llm_prompt)
-    st.write("Keyword String")
-    st.write(llm_response)
+    response = query_gpt(llm_prompt)
+    st.write("Reposnse")
+    st.write(response)
 
 def main():
          
